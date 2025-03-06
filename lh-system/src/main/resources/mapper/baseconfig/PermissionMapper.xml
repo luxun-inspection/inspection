@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.baseconfig.mapper.PermissionMapper">
+
+    <resultMap type="Permission" id="Permission">
+        <result property="id"    column="id"    />
+        <result property="permissionName"    column="permission_name"/>
+        <result property="createTime"    column="create_time" />
+        <result property="createBy"    column="create_by" />
+        <result property="updateTime"    column="update_time" />
+        <result property="updateBy"    column="update_by" />
+    </resultMap>
+
+
+    <insert id="addPermission" parameterType="Permission" useGeneratedKeys="true" keyProperty="id">
+        insert into permission
+        (
+        <if test="permissionName != null and permissionName != ''">permission_name,</if>
+        <if test="createTime != null ">create_time,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="updateTime != null ">update_time,</if>
+        <if test="updateBy != null and updateBy != ''">update_by</if>
+        )values(
+        <if test="permissionName != null and permissionName != ''">#{permissionName},</if>
+        <if test="createTime != null ">#{createTime},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="updateTime != null ">#{updateTime},</if>
+        <if test="updateBy != null and updateBy != ''">#{updateBy}</if>
+        )
+    </insert>
+
+    <update id="updatePermission" parameterType="Permission">
+        update permission
+        <set>
+            <if test="permissionName != null and permissionName != ''">permission_name = #{permissionName},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getPermissionListByPostId" resultMap="Permission">
+        select * from permission p left join post_permission post on p.id = post.permission_id where post_id = #{postId}
+    </select>
+
+    <select id="getAllPermission" resultMap="Permission">
+        select * from permission
+    </select>
+
+    <select id="getPostIdsByPermissionId" resultType="Long">
+        select DISTINCT post_id from post_permission where permission_id = 1 or permission_id = 2
+    </select>
+
+
+
+
+
+
+
+</mapper>

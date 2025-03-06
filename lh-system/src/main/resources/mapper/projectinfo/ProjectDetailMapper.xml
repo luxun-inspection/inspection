@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.project.mapper.ProjectDetailMapper">
+
+    <resultMap type="ProjectDetail" id="ProjectDetail">
+        <result property="id"    column="id"    />
+        <result property="projectId"    column="project_id"/>
+        <result property="projectName"    column="project_name" />
+        <result property="type"    column="type" />
+        <result property="plate"    column="plate" />
+        <result property="qrCode"    column="qr_code" />
+        <result property="video"    column="video" />
+        <result property="isDel"    column="is_del" />
+        <result property="description"    column="description" />
+        <result property="createTime"    column="create_time" />
+        <result property="createBy"    column="create_by" />
+        <result property="updateTime"    column="update_time" />
+        <result property="updateBy"    column="update_by" />
+        <result property="hits"    column="hits" />
+    </resultMap>
+
+
+    <insert id="insertProjectDetail" parameterType="ProjectDetail" >
+        insert into project_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="projectId != null">project_id,</if>
+            <if test="projectName != null">project_name,</if>
+            <if test="type != null">type,</if>
+            <if test="plate != null">plate,</if>
+            <if test="qrCode != null">qr_code,</if>
+            <if test="video != null">video,</if>
+            <if test="isDel != null">is_del,</if>
+            <if test="description != null">description,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="projectId != null">#{projectId},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="type != null">#{type},</if>
+            <if test="plate != null">#{plate},</if>
+            <if test="qrCode != null">#{qrCode},</if>
+            <if test="video != null">#{video},</if>
+            <if test="isDel != null">#{isDel},</if>
+            <if test="description != null">#{description},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+        </trim>
+    </insert>
+
+
+    <update id="updateProjectDetail" parameterType="ProjectDetail">
+        update project_detail
+        <set>
+            <if test="projectId != null and projectId != ''">project_id = #{projectId},</if>
+            <if test="projectName != null and projectName != ''">project_name = #{projectName},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
+            <if test="video != null and video != ''">video = #{video},</if>
+            <if test="plate != null and plate != ''">plate = #{plate},</if>
+            <if test="description != null and description != ''">description = #{description},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="hits != null and hits != ''">hits = #{hits},</if>
+            update_time = sysdate()
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getProjectDetailList" parameterType="ProjectDetail" resultMap="ProjectDetail">
+        select * from project_detail
+        <where>
+            and is_del=1
+        <if test="projectName != null and projectName != ''">
+            and project_name = #{projectName}
+        </if>
+        <if test="id != null and id != ''">
+            and id = #{id}
+        </if>
+        <if test="projectId != null and projectId != ''">
+            and project_id = #{projectId}
+        </if>
+        <if test="type != null and type != ''">
+            and type = #{type}
+        </if>
+        <if test="plate != null and plate != ''">
+            and plate like concat('%', #{plate}, '%')
+        </if>
+        <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+            and create_time between #{startTime} and #{endTime}
+        </if>
+
+    </where>
+        order by create_time desc
+    </select>
+
+    <select id="getProjectDetailListById" parameterType="ProjectDetail" resultMap="ProjectDetail">
+        select * from project_detail where  is_del=1 and project_id=#{projectId} order by create_time desc
+    </select>
+
+    <select id="getProjectDetailById" resultMap="ProjectDetail">
+        select * from project_detail where id = #{id} and is_del=1
+    </select>
+
+    <delete id="deleteProjectDetail">
+        update  project_detail set is_del=0 where id=#{id}
+    </delete>
+
+
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.baseconfig.mapper.BaseConsultArticleMapper">
+
+    <resultMap type="BaseConsultArticle" id="BaseConsultArticleResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="coverImg"    column="cover_img"    />
+        <result property="content"    column="content"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectBaseConsultArticleVo">
+        select id, title, cover_img, content, create_by, create_time, update_time, update_by from base_consult_article
+    </sql>
+
+    <select id="selectBaseConsultArticleList" parameterType="BaseConsultArticle" resultMap="BaseConsultArticleResult">
+        <include refid="selectBaseConsultArticleVo"/>
+        <where>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="coverImg != null  and coverImg != ''"> and cover_img = #{coverImg}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseConsultArticleById" parameterType="Long" resultMap="BaseConsultArticleResult">
+        <include refid="selectBaseConsultArticleVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseConsultArticle" parameterType="BaseConsultArticle" useGeneratedKeys="true" keyProperty="id">
+        insert into base_consult_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="coverImg != null">cover_img,</if>
+            <if test="content != null">content,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="coverImg != null">#{coverImg},</if>
+            <if test="content != null">#{content},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseConsultArticle" parameterType="BaseConsultArticle">
+        update base_consult_article
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="coverImg != null">cover_img = #{coverImg},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseConsultArticleById" parameterType="Long">
+        delete from base_consult_article where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseConsultArticleByIds" parameterType="String">
+        delete from base_consult_article where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

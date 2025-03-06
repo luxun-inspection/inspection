@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.workorder.mapper.WorkOrderMapper">
+
+    <resultMap type="WorkOrder" id="WorkOrder">
+        <result property="id"    column="id"    />
+        <result property="problemCategory"    column="problem_category"    />
+        <result property="problemDescribe"    column="problem_describe"/>
+        <result property="pic"    column="pic" />
+        <result property="pic1"    column="pic1" />
+        <result property="pic2"    column="pic2" />
+        <result property="phone"    column="phone" />
+        <result property="status"    column="status" />
+        <result property="contacts"    column="contacts" />
+        <result property="workUnit"    column="work_unit" />
+        <result property="workAddress"    column="work_address" />
+        <result property="appointedTime"    column="appointed_time" />
+        <result property="orderDescribe"    column="order_describe" />
+        <result property="price"    column="price" />
+        <result property="userId"    column="user_id" />
+        <result property="engineerId"    column="engineer_id" />
+        <result property="remark"    column="remark" />
+        <result property="createTime"    column="create_time" />
+        <result property="updateTime"    column="update_time" />
+        <result property="finishTime"    column="finish_time" />
+        <result property="serviceStaff"    column="service_staff" />
+        <result property="orderNumber"    column="order_number" />
+        <result property="actualAmount"    column="actual_amount" />
+        <result property="submitter"    column="submitter" />
+        <result property="finishPic"    column="finish_pic" />
+        <result property="orderType"    column="order_type" />
+        <result property="dispatchPhone"    column="dispatch_phone" />
+        <result property="dispatchStatus"    column="dispatch_status" />
+        <result property="deviceNum"    column="device_num" />
+        <result property="deviceBrand"    column="device_brand" />
+        <result property="deviceLimit"    column="device_limit" />
+        <result property="deviceYear"    column="device_year" />
+        <result property="categoryId"    column="category_id" />
+        <result property="dispatchFeedback"    column="dispatch_feedback" />
+        <result property="dispatchImg"    column="dispatch_img" />
+        <result property="deviceType"    column="device_type" />
+        <result property="manageUserId"    column="manage_user_id" />
+        <result property="manageUserName"    column="manage_user_name" />
+        <result property="manageDealTime"    column="manage_deal_time" />
+        <result property="engineerUserId"    column="engineer_user_id" />
+        <result property="engineerUserName"    column="engineer_user_name" />
+        <result property="engineerDealTime"    column="engineer_deal_time" />
+        <result property="manageConfirmTime"    column="manage_confirm_time" />
+        <result property="serviceName"    column="service_name" />
+        <result property="serviceDesc"    column="service_desc" />
+        <result property="serviceImage"    column="service_image" />
+        <result property="manageDealDesc"    column="manage_deal_desc" />
+        <result property="manageDealImage"    column="manage_deal_image" />
+    </resultMap>
+
+
+
+    <insert id="addWorkOrder" parameterType="WorkOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into work_order(
+        <if test="problemCategory != null and problemCategory != ''">problem_category,</if>
+        <if test="problemDescribe != null and problemDescribe != ''">problem_describe,</if>
+        <if test="pic != null and pic != ''">pic,</if>
+        <if test="pic1 != null and pic1 != ''">pic1,</if>
+        <if test="pic2 != null and pic2 != ''">pic2,</if>
+        <if test="phone != null and phone != ''">phone,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="contacts != null and contacts != ''">contacts,</if>
+        <if test="workUnit != null and workUnit != ''">work_unit,</if>
+        <if test="workAddress != null and workAddress != ''">work_address,</if>
+        <if test="appointedTime != null ">appointed_time,</if>
+        <if test="orderDescribe != null and orderDescribe != ''">order_describe,</if>
+        <if test="price != null and price != ''">price,</if>
+        <if test="userId != null and userId != ''">user_id,</if>
+        <if test="engineerId != null and engineerId != ''">engineer_id,</if>
+        <if test="actualAmount != null and actualAmount != ''">actual_amount,</if>
+        <if test="submitter != null and submitter != ''">submitter,</if>
+        <if test="finishPic != null and finishPic != ''">dispatch_phone,</if>
+        <if test="dispatchPhone != null and dispatchPhone != ''">dispatch_phone,</if>
+        <if test="dispatchStatus != null and dispatchStatus != ''">dispatch_status,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        <if test="orderType != null and orderType != ''">order_type,</if>
+        <if test="orderNumber != null and orderNumber != ''">order_number,</if>
+        <if test="updateTime != null ">update_time,</if>
+        <if test="finishTime != null ">finish_time,</if>
+        <if test="deviceNum != null ">device_num,</if>
+        <if test="deviceBrand != null ">device_brand,</if>
+        <if test="deviceLimit != null ">device_limit,</if>
+        <if test="deviceYear != null ">device_year,</if>
+        <if test="categoryId != null ">category_id,</if>
+        <if test="deviceType != null ">device_type,</if>
+        create_time
+        )values(
+        <if test="problemCategory != null and problemCategory != ''">#{problemCategory},</if>
+        <if test="problemDescribe != null and problemDescribe != ''">#{problemDescribe},</if>
+        <if test="pic != null and pic != ''">#{pic},</if>
+        <if test="pic1 != null and pic1 != ''">#{pic1},</if>
+        <if test="pic2 != null and pic2 != ''">#{pic2},</if>
+        <if test="phone != null and phone != ''">#{phone},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="contacts != null and contacts != ''">#{contacts},</if>
+        <if test="workUnit != null and workUnit != ''">#{workUnit},</if>
+        <if test="workAddress != null and workAddress != ''">#{workAddress},</if>
+        <if test="appointedTime != null ">#{appointedTime},</if>
+        <if test="orderDescribe != null and orderDescribe != ''">#{orderDescribe},</if>
+        <if test="price != null and price != ''">#{price},</if>
+        <if test="userId != null and userId != ''">#{userId},</if>
+        <if test="engineerId != null and engineerId != ''">#{engineerId},</if>
+        <if test="actualAmount != null and actualAmount != ''">#{actualAmount},</if>
+        <if test="finishPic != null and finishPic != ''">#{finishPic},</if>
+        <if test="submitter != null and submitter != ''">#{submitter},</if>
+        <if test="dispatchPhone != null and dispatchPhone != ''">#{dispatchPhone},</if>
+        <if test="dispatchStatus != null and dispatchStatus != ''">#{dispatchStatus},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        <if test="orderType != null and orderType != ''">#{orderType},</if>
+        <if test="orderNumber != null and orderNumber != ''">#{orderNumber},</if>
+        <if test="updateTime != null ">#{updateTime},</if>
+        <if test="finishTime != null ">#{finishTime},</if>
+        <if test="deviceNum != null ">#{deviceNum},</if>
+        <if test="deviceBrand != null ">#{deviceBrand},</if>
+        <if test="deviceLimit != null ">#{deviceLimit},</if>
+        <if test="deviceYear != null ">#{deviceYear},</if>
+        <if test="categoryId != null ">#{categoryId},</if>
+        <if test="deviceType != null ">#{deviceType},</if>
+        sysdate()
+        )
+    </insert>
+
+
+    <update id="updateWorkOrder" parameterType="WorkOrder">
+        update work_order
+        <set>
+            <if test="problemCategory != null and problemCategory != ''">problem_category = #{problemCategory},</if>
+            <if test="problemDescribe != null and problemDescribe != ''">problem_describe = #{problemDescribe},</if>
+            <if test="pic != null and pic != ''">pic = #{pic},</if>
+            <if test="pic1 != null and pic1 != ''">pic1 = #{pic1},</if>
+            <if test="pic2 != null and pic2 != ''">pic2 = #{pic2},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="status !=null and status != ''">status = #{status},</if>
+            <if test="contacts !=null and  contacts!= '' ">contacts = #{contacts},</if>
+            <if test="workUnit !=null and  workUnit!= '' ">work_unit = #{workUnit},</if>
+            <if test="workAddress !=null and  workAddress!= '' ">work_address = #{workAddress},</if>
+            <if test="appointedTime !=null  ">appointed_time = #{appointedTime},</if>
+            <if test="orderDescribe !=null and  orderDescribe!= '' ">order_describe = #{orderDescribe},</if>
+            <if test="price !=null and  price!= '' ">price = #{price},</if>
+            <if test="userId !=null and  userId!= '' ">user_id = #{userId},</if>
+            <if test="engineerId !=null and  engineerId!= '' ">engineer_id = #{engineerId},</if>
+            <if test="actualAmount !=null and  actualAmount!= '' ">actual_amount = #{actualAmount},</if>
+            <if test="submitter !=null and  submitter!= '' ">submitter = #{submitter},</if>
+            <if test="finishPic !=null and  finishPic!= '' ">finish_pic = #{finishPic},</if>
+            <if test="orderType !=null and  orderType!= '' ">order_type = #{orderType},</if>
+            <if test="dispatchPhone !=null and  dispatchPhone!= '' ">dispatch_phone = #{dispatchPhone},</if>
+            <if test="dispatchStatus !=null and  dispatchStatus!= '' ">dispatch_status = #{dispatchStatus},</if>
+            <if test="remark !=null and  remark!= '' ">remark = #{remark},</if>
+            <if test="createTime !=null  ">create_time = #{createTime},</if>
+            <if test="finishTime !=null  ">finish_time = #{finishTime},</if>
+            <if test="serviceStaff !=null  ">service_staff = #{serviceStaff},</if>
+            <if test="deviceNum != null ">device_num=#{deviceNum},</if>
+            <if test="deviceBrand != null ">device_brand=#{deviceBrand},</if>
+            <if test="deviceLimit != null ">device_limit=#{deviceLimit},</if>
+            <if test="deviceYear != null ">device_year=#{deviceYear},</if>
+            <if test="categoryId != null ">category_id=#{categoryId},</if>
+            <if test="dispatchFeedback != null ">dispatch_feedback=#{dispatchFeedback},</if>
+            <if test="dispatchImg != null ">dispatch_img=#{dispatchImg},</if>
+            <if test="deviceType != null ">device_type=#{deviceType},</if>
+            <if test="manageUserId!=null">manage_user_id=#{manageUserId} ,</if>
+            <if test="manageUserName!=null">manage_user_name=#{manageUserName} ,</if>
+            <if test="manageDealTime!=null">manage_deal_time=#{manageDealTime} ,</if>
+            <if test="engineerUserId!=null">engineer_user_id=#{engineerUserId} ,</if>
+            <if test="engineerUserName!=null">engineer_user_name=#{engineerUserName} ,</if>
+            <if test="engineerDealTime!=null">engineer_deal_time=#{engineerDealTime},</if>
+            <if test="manageConfirmTime!=null">manage_confirm_time=#{manageConfirmTime},</if>
+            <if test="serviceName!=null">service_name=#{serviceName},</if>
+            <if test="serviceDesc!=null">service_desc=#{serviceDesc},</if>
+            <if test="serviceImage!=null">service_image=#{serviceImage},</if>
+            <if test="manageDealDesc!=null">manage_deal_desc=#{manageDealDesc},</if>
+            <if test="manageDealImage!=null">manage_deal_image=#{manageDealImage},</if>
+            update_time = sysdate()
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="getWorkOrderRecord" resultMap="WorkOrder">
+        select * from work_order order by create_time desc
+    </select>
+
+    <select id="getEngineerNameList" resultType="com.lh.baseconfig.domain.UserInfo">
+          select ser.nick_name as engineerName  from user_info info left join sys_user ser on info.user_id = ser.user_id
+    </select>
+
+    <select id="getWorkOrderById" resultMap="WorkOrder">
+        select * from work_order where id = #{id}
+    </select>
+
+    <select id="getMyWorkOrder" resultMap="WorkOrder">
+        select * from work_order where (user_id = #{userId} or engineer_id in(select a.user_id from sys_user a where a.phonenumber in(	SELECT phone from user_info where id=#{userId}))) and order_type in ('1','2')   order by create_time desc
+    </select>
+
+    <select id="getdispatchOrderRecord" resultMap="WorkOrder">
+        select * from work_order where service_staff = #{serviceStaff} order by create_time desc
+    </select>
+
+    <select id="getWorkOrder" resultMap="WorkOrder">
+        select * from work_order where order_number = #{orderNumber}
+    </select>
+
+
+    <select id="getAllWorkOrder" resultMap="WorkOrder">
+        select * from work_order order by create_time desc
+    </select>
+
+    <select id="getCustomerWorkOrder" resultMap="WorkOrder">
+        select * from work_order where user_id = #{userId} order by create_time desc
+    </select>
+
+    <select id="getMyOrder" resultMap="WorkOrder">
+        select * from work_order where order_type in ('1','2') order by create_time desc
+    </select>
+
+    <select id="getAlldispatchOrder" resultMap="WorkOrder">
+        select * from work_order where 1=1
+        <if test="status != null and status == '2'.toString()">
+            and   status in ('1','2')
+        </if>
+        <if test="status != null and status == '3'.toString()">
+            and   status in ('2','3')
+        </if>
+        order by create_time desc
+    </select>
+
+    <select id="getMyDispatchOrder" resultMap="WorkOrder">
+           select * from work_order where user_id = #{userId} or (engineer_id =in(select a.user_id from sys_user a where a.phonenumber in(	SELECT phone from user_info where id=#{userId})) and dispatch_status = '1')
+           <if test="status != null and status == '2'.toString()">
+            and   status in ('1','2')
+           </if>
+            <if test="status != null and status == '3'.toString()">
+                and   status in ('2','3')
+            </if>
+           order by create_time desc
+    </select>
+
+    <select id="getOrderNumberByUserId" resultType="int">
+        select count(1) from work_order where user_id = #{userId}
+    </select>
+
+    <select id="getWorkOrderByParms" resultMap="WorkOrder">
+        select * from work_order where 1=1
+        <if test="problemCategory != null and problemCategory != ''">
+            AND problem_category like concat('%', #{problemCategory}, '%')
+        </if>
+        <if test="orderNumber != null and orderNumber != ''">
+            AND order_number like concat('%', #{orderNumber}, '%')
+        </if>
+        <if test="orderType != null">
+            and order_type = #{orderType}
+        </if>
+        <if test="startTime != null">
+            and create_time &gt; #{startTime}
+        </if>
+        <if test="endTime != null">
+            and create_time &lt; #{endTime}
+        </if>
+        order by create_time desc
+    </select>
+
+    <select id="getdispatchWorderOrderByParms"  resultMap="WorkOrder">
+        select * from work_order where 1=1 and dispatch_status = '1'
+        <if test="problemCategory != null and problemCategory != ''">
+            AND problem_category like concat('%', #{problemCategory}, '%')
+        </if>
+        <if test="phone != null and phone != ''">
+            AND phone like concat('%', #{phone}, '%')
+        </if>
+        <if test="startTime != null">
+            and create_time &gt; #{startTime}
+        </if>
+        <if test="endTime != null">
+            and create_time &lt; #{endTime}
+        </if>
+        order by create_time desc
+    </select>
+
+    <select id="getMyOrderByStatus" resultMap="WorkOrder">
+        select * from work_order where order_type in ('1','2')
+        <if test="status != null and status != ''">
+          and   status in (${status})
+        </if>
+         order by create_time desc
+
+  </select>
+
+    <select id="getMyWorkOrderByStatus" resultMap="WorkOrder">
+         select * from work_order a
+         where
+        <if test="sysId != null">
+             (a.user_id =#{userId} or a.manage_user_id=#{sysId} or a.engineer_user_id=#{sysId} or a.service_staff=#{sysId} or FIND_IN_SET(#{sysId},a.engineer_id)>0 )
+        </if>
+        <if test="status != null and status != ''">
+            and    a.status in (${status})
+        </if>
+         order by a.create_time desc
+    </select>
+
+
+
+
+
+</mapper>

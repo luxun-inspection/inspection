@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.baseconfig.mapper.BaseProductTypeMapper">
+
+    <resultMap type="BaseProductType" id="BaseProductTypeResult">
+        <result property="typeId"    column="type_id"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="categoryType"    column="category_type"    />
+        <result property="categoryName"    column="category_name"    />
+    </resultMap>
+
+    <sql id="selectBaseProductTypeVo">
+        select type_id, type_name, category_type, category_name from base_product_type
+    </sql>
+
+    <select id="selectBaseProductTypeList" parameterType="BaseProductType" resultMap="BaseProductTypeResult">
+        <include refid="selectBaseProductTypeVo"/>
+        <where>
+            <if test="typeName != null  and typeName != ''"> and type_name like concat('%', #{typeName}, '%')</if>
+            <if test="categoryType != null  and categoryType != ''"> and category_type = #{categoryType}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseProductTypeByTypeId" parameterType="Long" resultMap="BaseProductTypeResult">
+        <include refid="selectBaseProductTypeVo"/>
+        where type_id = #{typeId}
+    </select>
+
+    <insert id="insertBaseProductType" parameterType="BaseProductType" useGeneratedKeys="true" keyProperty="typeId">
+        insert into base_product_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeName != null">type_name,</if>
+            <if test="categoryType != null">category_type,</if>
+            <if test="categoryName != null">category_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typeName != null">#{typeName},</if>
+            <if test="categoryType != null">#{categoryType},</if>
+            <if test="categoryName != null">#{categoryName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseProductType" parameterType="BaseProductType">
+        update base_product_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeName != null">type_name = #{typeName},</if>
+            <if test="categoryType != null">category_type = #{categoryType},</if>
+            <if test="categoryName != null">category_name = #{categoryName},</if>
+        </trim>
+        where type_id = #{typeId}
+    </update>
+
+    <delete id="deleteBaseProductTypeByTypeId" parameterType="Long">
+        delete from base_product_type where type_id = #{typeId}
+    </delete>
+
+    <delete id="deleteBaseProductTypeByTypeIds" parameterType="String">
+        delete from base_product_type where type_id in
+        <foreach item="typeId" collection="array" open="(" separator="," close=")">
+            #{typeId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.baseconfig.mapper.PostPermissionMapper">
+
+    <resultMap type="PostPermission" id="PostPermission">
+        <result property="id"    column="id"    />
+        <result property="postId"    column="post_id"    />
+        <result property="permissionId"    column="permission_id"/>
+        <result property="createTime"    column="create_time" />
+        <result property="createBy"    column="create_by" />
+        <result property="updateTime"    column="update_time" />
+        <result property="updateBy"    column="update_by" />
+    </resultMap>
+
+
+    <insert id="insertPostPermission" parameterType="PostPermission" useGeneratedKeys="true" keyProperty="id">
+        insert into post_permission
+        (
+        <if test="postId != null and postId != ''">post_id,</if>
+        <if test="permissionId != null and permissionId != ''">permission_id,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="updateTime != null ">update_time,</if>
+        <if test="updateBy != null and updateBy != ''">update_by,</if>
+        <if test="createTime != null ">create_time</if>
+        )values(
+        <if test="postId != null and postId != ''">#{postId},</if>
+        <if test="permissionId != null and permissionId != ''">#{permissionId},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="updateTime != null ">#{updateTime},</if>
+        <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+        <if test="createTime != null ">#{createTime}</if>
+        )
+    </insert>
+
+    <update id="updatePostPermission" parameterType="PostPermission">
+        update post_permission
+        <set>
+            <if test="postId != null and postId != ''">post_id = #{postId},</if>
+            <if test="permissionId != null and permissionId != ''">permission_id = #{permissionId},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="getPermissionListByPostId" resultType="com.lh.baseconfig.domain.Permission">
+        select per.id as id,per.permission_name as permissionName,per.english_name as englishName  from permission per left join  post_permission pp on per.id = pp.permission_id where pp.post_id = #{postId}
+    </select>
+
+    <delete id="deleteAuthorityByPostId">
+        delete  from post_permission where post_id = #{postId}
+    </delete>
+
+
+
+
+
+
+
+
+
+</mapper>

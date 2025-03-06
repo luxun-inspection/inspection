@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.baseconfig.mapper.HomePageMapper">
+
+    <resultMap type="HomePage" id="HomePage">
+        <result property="id"    column="id"    />
+        <result property="homeKey"    column="home_key"/>
+        <result property="homeValue"    column="home_value" />
+        <result property="homeType"    column="home_type" />
+        <result property="pic"    column="pic" />
+        <result property="title"    column="title" />
+        <result property="content"    column="content" />
+        <result property="status"    column="status" />
+        <result property="sort"    column="sort" />
+        <result property="createTime"    column="create_time" />
+        <result property="updateTime"    column="update_time" />
+    </resultMap>
+
+    <insert id="insertHomePage" parameterType="HomePage" useGeneratedKeys="true" keyProperty="id">
+        insert into home_page(
+        <if test="homeKey != null and homeKey != ''">home_key,</if>
+        <if test="homeValue != null and homeValue != ''">home_value,</if>
+        <if test="homeType != null and homeType != ''">home_type,</if>
+        <if test="status != null and status != ''">status,</if>
+        <if test="sort != null and sort != ''">sort,</if>
+        <if test="pic != null and pic != ''">pic,</if>
+        <if test="title != null and title != ''">title,</if>
+        <if test="content != null and content != ''">content,</if>
+        <if test="updateTime != null ">update_time,</if>
+        <if test="createTime != null ">create_time</if>
+        )values(
+        <if test="homeKey != null and homeKey != ''">#{homeKey},</if>
+        <if test="homeValue != null and homeValue != ''">#{homeValue},</if>
+        <if test="homeType != null and homeType != ''">#{homeType},</if>
+        <if test="sort != null and sort != ''">#{sort},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        <if test="pic != null and pic != ''">#{pic},</if>
+        <if test="title != null and title != ''">#{title},</if>
+        <if test="content != null and content != ''">#{content},</if>
+        <if test="updateTime != null ">#{updateTime},</if>
+        <if test="createTime != null ">#{createTime}</if>
+        )
+    </insert>
+
+
+    <update id="updateHomePage" parameterType="HomePage">
+        update home_page
+        <set>
+            <if test="homeKey != null and homeKey != ''">home_key = #{homeKey},</if>
+            <if test="homeValue != null and homeValue != ''">home_value = #{homeValue},</if>
+            <if test="homeType != null and homeType != ''">home_type = #{homeType},</if>
+            <if test="sort != null and sort != ''">sort = #{sort},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="pic != null and pic != ''">pic = #{pic},</if>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="createTime !=null">create_time = #{createTime},</if>
+            update_time = sysdate()
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getHomePageBanner" resultMap="HomePage">
+        select * from home_page where home_type = 1 and status =1 order by sort asc
+    </select>
+
+    <select id="getCompanyIntroduction" resultMap="HomePage">
+        select * from home_page where home_type = 3 and status =1 order by create_time limit 1
+    </select>
+
+    <select id="getRotationPic" resultMap="HomePage">
+        select * from home_page where home_type = 1 and status =1 order by sort asc
+    </select>
+
+    <delete id="deleteHomePage">
+        delete from home_page where id = #{id}
+    </delete>
+
+    <select id="getHomePageById" resultMap="HomePage">
+        select * from home_page where id = #{id}
+    </select>
+
+
+
+
+
+
+</mapper>

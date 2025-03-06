@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.baseconfig.mapper.ItemDetailMapper">
+
+    <resultMap type="ItemDetail" id="ItemDetail">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"/>
+        <result property="pic"    column="pic"/>
+        <result property="content"    column="content" />
+        <result property="parentId"    column="parent_id" />
+        <result property="createTime"    column="create_time" />
+        <result property="createBy"    column="create_by" />
+        <result property="updateTime"    column="update_time" />
+        <result property="updateBy"    column="update_by" />
+    </resultMap>
+
+
+    <insert id="insertItemDetail" parameterType="ItemDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into item_detail
+        (
+        <if test="title != null and title != ''">title,</if>
+        <if test="pic != null and pic != ''">content,</if>
+        <if test="content != null and content != ''">content,</if>
+        <if test="parentId != null and parentId != ''">parent_id,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="updateTime != null ">update_time,</if>
+        <if test="updateBy != null and updateBy != ''">update_by,</if>
+        <if test="createTime != null ">create_time</if>
+        )values(
+        <if test="title != null and title != ''">#{title},</if>
+        <if test="pic != null and pic != ''">#{pic},</if>
+        <if test="content != null and content != ''">#{content},</if>
+        <if test="parentId != null and parentId != ''">#{parentId},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="updateTime != null ">#{updateTime},</if>
+        <if test="updateBy != null and updateBy != ''">#{updateBy},</if>
+        <if test="createTime != null ">#{createTime}</if>
+        )
+    </insert>
+
+    <update id="updateItemDetail" parameterType="ItemDetail">
+        update item_detail
+        <set>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="pic != null and pic != ''">pic = #{pic},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createBy != null and createBy != ''">create_by = #{createBy},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+        </set>
+        where parent_id = #{parentId}
+    </update>
+
+    <select id="getItemDetailByParentId" resultMap="ItemDetail">
+        select * from item_detail where parent_id = #{id}
+    </select>
+
+
+
+
+
+</mapper>

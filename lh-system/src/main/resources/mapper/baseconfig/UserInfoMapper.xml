@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.baseconfig.mapper.UserInfoMapper">
+
+    <resultMap type="UserInfo" id="UserInfo">
+        <result property="id" column="id"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="openId" column="open_id"/>
+        <result property="userType" column="user_type"/>
+        <result property="avatar" column="avatar"/>
+        <result property="phone" column="phone"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="sessionKey" column="session_key"/>
+        <result property="userName" column="user_name"/>
+        <result property="address" column="address"/>
+        <result property="authStatus" column="auth_status"/>
+        <result property="hotAmount" column="hot_amount"/>
+    </resultMap>
+
+    <select id="getUserInfoByOpenId" resultMap="UserInfo">
+        select *
+        from user_info
+        where open_id = #{openId}
+    </select>
+
+    <insert id="insertUserInfo" parameterType="UserInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != 0">user_id,</if>
+            <if test="nickName != null and nickName != 0">nick_name,</if>
+            <if test="openId != null and openId != ''">open_id,</if>
+            <if test="userType != null and userType != ''">user_type,</if>
+            <if test="avatar != null and avatar != ''">avatar,</if>
+            <if test="phone != null and phone != ''">phone,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="sessionKey != null and sessionKey != ''">session_key,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="address != null and address != ''">address,</if>
+            <if test="authStatus != null and authStatus != ''">auth_status,</if>
+            <if test="hotAmount != null">hot_amount,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null and userId != ''">#{userId},</if>
+            <if test="nickName != null and nickName != ''">#{nickName},</if>
+            <if test="openId != null and openId != ''">#{openId},</if>
+            <if test="userType != null and userType != ''">#{userType},</if>
+            <if test="avatar != null and avatar != ''">#{avatar},</if>
+            <if test="phone != null and phone != ''">#{phone},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="sessionKey != null and sessionKey != ''">#{sessionKey},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="address != null and address != ''">#{address},</if>
+            <if test="authStatus != null and authStatus != ''">#{authStatus},</if>
+            <if test="hotAmount != null">#{hotAmount},</if>
+        </trim>
+    </insert>
+
+    <select id="getUserInfoById" resultMap="UserInfo">
+        select *
+        from user_info
+        where id = #{id}
+    </select>
+
+    <update id="updateUserInfo" parameterType="UserInfo">
+        update user_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
+            <if test="openId != null and openId != ''">open_id = #{openId},</if>
+            <if test="userType != null and userType != ''">user_type = #{userType},</if>
+            <if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
+            <if test="phone != null and phone != ''">phone = #{phone},</if>
+            <if test="sessionKey != null and sessionKey != ''">session_key = #{sessionKey},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="authStatus != null and authStatus != ''">auth_status = #{authStatus},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="createTime !=null">create_time = #{createTime},</if>
+            <if test="hotAmount !=null and hotAmount!=0">hot_amount = #{hotAmount},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <select id="getEngineerList" resultType="com.lh.baseconfig.domain.UserInfo">
+        select uer.user_id as id,uer.user_name as nickName,uer.phonenumber as phone from sys_user uer left join
+        sys_user_post ust on uer.user_id = ust.user_id
+        where uer.status ='0'
+          and  uer.del_flag = '0'
+          and ust.post_id in (15)
+    </select>
+
+    <select id="getManagerUserList" resultType="com.lh.baseconfig.domain.UserInfo">
+        select uer.user_id as id,uer.user_name as nickName,uer.phonenumber as phone from sys_user uer left join
+        sys_user_post ust on uer.user_id = ust.user_id
+        where uer.status ='0'
+          and  uer.del_flag = '0'
+          and ust.post_id =16
+    </select>
+
+    <select id="getEngineerName" resultType="String">
+        select user_name from sys_user where status ='0' and user_id in
+        <foreach item="id" collection="engineerId" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="getUserInfoByIds" parameterType="String" resultType="com.lh.baseconfig.domain.UserInfo">
+        select uer.user_id as id,uer.user_name as nickName,uer.phonenumber as phone
+        from sys_user uer where uer.status ='0' and uer.user_id in (${engineeId})
+    </select>
+
+    <select id="getUserInfoByParms" parameterType="UserInfo" resultMap="UserInfo">
+        select * from user_info where 1=1
+        <if test="phone != null and phone != ''">
+            AND phone like concat('%', #{phone}, '%')
+        </if>
+        <if test="userType != null and userType != ''">
+            AND userType = #{userType}
+        </if>
+    </select>
+
+
+</mapper>

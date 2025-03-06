@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.baseconfig.mapper.BaseFeedbackMapper">
+
+    <resultMap type="BaseFeedback" id="BaseFeedbackResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="content"    column="content"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="dealTime"    column="deal_time"    />
+    </resultMap>
+
+    <sql id="selectBaseFeedbackVo">
+        select id, user_id, content, image_url, status, create_time, deal_time from base_feedback
+    </sql>
+
+    <select id="selectBaseFeedbackList" parameterType="BaseFeedback" resultMap="BaseFeedbackResult">
+        <include refid="selectBaseFeedbackVo"/>
+        <where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="imageUrl != null  and imageUrl != ''"> and image_url = #{imageUrl}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="dealTime != null "> and deal_time = #{dealTime}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseFeedbackById" parameterType="String" resultMap="BaseFeedbackResult">
+        <include refid="selectBaseFeedbackVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseFeedback" parameterType="BaseFeedback" useGeneratedKeys="true" keyProperty="id">
+        insert into base_feedback
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="content != null">content,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="dealTime != null">deal_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="content != null">#{content},</if>
+            <if test="imageUrl != null">#{imageUrl},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="dealTime != null">#{dealTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseFeedback" parameterType="BaseFeedback">
+        update base_feedback
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="dealTime != null">deal_time = #{dealTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseFeedbackById" parameterType="String">
+        delete from base_feedback where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseFeedbackByIds" parameterType="String">
+        delete from base_feedback where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

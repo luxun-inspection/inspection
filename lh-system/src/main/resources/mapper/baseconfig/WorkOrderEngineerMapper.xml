@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.baseconfig.mapper.WorkOrderEngineerMapper">
+
+    <resultMap type="WorkOrderEngineer" id="WorkOrderEngineerResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="orderDescribe"    column="order_describe"    />
+        <result property="imageUrl"    column="image_url"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="dealTime"    column="deal_time"    />
+    </resultMap>
+
+    <sql id="selectWorkOrderEngineerVo">
+        select id, order_id, user_id, user_name, order_describe, image_url, status, create_time, deal_time from work_order_engineer
+    </sql>
+
+    <select id="selectWorkOrderEngineerList" parameterType="WorkOrderEngineer" resultMap="WorkOrderEngineerResult">
+        <include refid="selectWorkOrderEngineerVo"/>
+        <where>
+            <if test="orderId != null "> and order_id = #{orderId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="dealTime != null "> and deal_time = #{dealTime}</if>
+        </where>
+    </select>
+
+    <select id="selectWorkOrderEngineerById" parameterType="String" resultMap="WorkOrderEngineerResult">
+        <include refid="selectWorkOrderEngineerVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertWorkOrderEngineer" parameterType="WorkOrderEngineer" useGeneratedKeys="true" keyProperty="id">
+        insert into work_order_engineer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="orderDescribe != null">order_describe,</if>
+            <if test="imageUrl != null">image_url,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="dealTime != null">deal_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="orderDescribe != null">#{orderDescribe},</if>
+            <if test="imageUrl != null">#{imageUrl},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="dealTime != null">#{dealTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWorkOrderEngineer" parameterType="WorkOrderEngineer">
+        update work_order_engineer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="orderDescribe != null">order_describe = #{orderDescribe},</if>
+            <if test="imageUrl != null">image_url = #{imageUrl},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="dealTime != null">deal_time = #{dealTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWorkOrderEngineerById" parameterType="String">
+        delete from work_order_engineer where id = #{id}
+    </delete>
+
+    <delete id="deleteWorkOrderEngineerByIds" parameterType="String">
+        delete from work_order_engineer where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.workorder.mapper.OrderDetailMapper">
+
+    <resultMap type="OrderDetail" id="OrderDetail">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"/>
+        <result property="content"    column="content" />
+        <result property="userId"    column="user_id" />
+        <result property="status"    column="status" />
+        <result property="createTime"    column="create_time" />
+        <result property="updateTime"    column="update_time" />
+    </resultMap>
+
+
+
+    <insert id="insertOrderDetail" parameterType="OrderDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into order_detail(
+        <if test="orderId != null and orderId != ''">order_id,</if>
+        <if test="content != null and content != ''">content,</if>
+        <if test="userId != null and userId != ''">user_id,</if>
+        <if test="status != null and status != ''">status,</if>
+         create_time
+        )values(
+        <if test="orderId != null and orderId != ''">#{orderId},</if>
+        <if test="content != null and content != ''">#{content},</if>
+        <if test="userId != null and userId != ''">#{userId},</if>
+        <if test="status != null and status != ''">#{status},</if>
+        sysdate()
+        )
+    </insert>
+
+
+    <update id="updateOrderDetail" parameterType="OrderDetail">
+        update order_detail
+        <set>
+            <if test="orderId != null and orderId != ''">order_id = #{orderId},</if>
+            <if test="content != null and content != ''">content = #{content},</if>
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            update_time = sysdate()
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <select id="getOrderDetailByOrderId" resultMap="OrderDetail">
+        select * from order_detail where order_id = #{orderId} order by create_time desc
+    </select>
+
+    <select id="getOrderDetailById" resultMap="OrderDetail">
+        select * from  order_detail where id = #{id}
+    </select>
+
+    <select id="getReadStatusRecord" >
+        select de.* from order_detail de left join user_info info  on de.user_id = info.user_id  where info.user_type !=3 and  status!=1
+    </select>
+
+    <select id="getNotReadOrderDetail" resultMap="OrderDetail">
+        select de.* from order_detail de left join user_info info  on de.user_id = info.id where info.user_type != #{userType} and de.order_id = #{orderId} and  de.status =2
+    </select>
+
+
+
+
+
+</mapper>

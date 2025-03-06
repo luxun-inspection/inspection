@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.project.mapper.ProjectMapper">
+
+    <resultMap type="ProjectInfo" id="ProjectInfo">
+        <result property="id"    column="id"    />
+        <result property="projectName"    column="name"/>
+        <result property="introduction"    column="introduction" />
+        <result property="projectPic"    column="pic" />
+        <result property="isDel"    column="is_del" />
+        <result property="isShow"    column="is_show" />
+        <result property="createTime"    column="create_time" />
+        <result property="createBy"    column="create_by" />
+        <result property="updateTime"    column="update_time" />
+        <result property="updateBy"    column="update_by" />
+    </resultMap>
+
+
+
+<!--    <insert id="insertProjectInfo" parameterType="ProjectInfo" useGeneratedKeys="true" keyProperty="id">-->
+<!--        insert into project(-->
+<!--        <if test="name != null and name != ''">name,</if>-->
+<!--        <if test="introduction != null and introduction != ''">introduction,</if>-->
+<!--        <if test="pic != null and pic != ''">pic,</if>-->
+<!--        <if test="isDel != null and isDel != ''">is_del,</if>-->
+<!--        <if test="isShow != null and isShow != ''">is_show,</if>-->
+<!--        <if test="createTime != null ">create_time,</if>-->
+<!--        <if test="createBy != null ">create_by,</if>-->
+<!--        <if test="updateTime != null ">update_time,</if>-->
+<!--        <if test="updateBy != null ">update_by</if>-->
+<!--        )values(-->
+<!--        <if test="name != null and name != ''">#{name},</if>-->
+<!--        <if test="introduction != null and introduction != ''">#{introduction},</if>-->
+<!--        <if test="pic != null and pic != ''">#{pic},</if>-->
+<!--        <if test="isDel != null and isDel != ''">#{isDel},</if>-->
+<!--        <if test="isShow != null and isShow != ''">#{isShow},</if>-->
+<!--        <if test="createTime != null ">#{createTime},</if>-->
+<!--        <if test="createBy != null ">#{createBy},</if>-->
+<!--        <if test="updateTime != null ">#{updateTime},</if>-->
+<!--        <if test="updateBy != null ">#{updateBy}</if>-->
+<!--        )-->
+<!--    </insert>-->
+    <insert id="insertProjectInfo" parameterType="ProjectInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into project
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectName != null">name,</if>
+            <if test="introduction != null">introduction,</if>
+            <if test="projectPic != null">pic,</if>
+            <if test="isDel != null">is_del,</if>
+            <if test="isShow != null">is_show,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectName != null">#{projectName},</if>
+            <if test="introduction != null">#{introduction},</if>
+            <if test="projectPic != null">#{projectPic},</if>
+            <if test="isDel != null">#{isDel},</if>
+            <if test="isShow != null">#{isShow},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+        </trim>
+    </insert>
+
+    <update id="updateProjectInfo" parameterType="ProjectInfo">
+        update project
+        <set>
+            <if test="projectName != null and projectName != ''">name = #{projectName},</if>
+            <if test="projectPic != null and projectPic != ''">pic = #{projectPic},</if>
+            <if test="introduction != null and introduction != ''">introduction = #{introduction},</if>
+            <if test="isShow != null and isShow != ''">is_show = #{isShow},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="getProjectList" parameterType="ProjectInfo" resultMap="ProjectInfo">
+        select p.*, (select sum(hits) from project_detail d where d.project_id = p.id ) as hits from project p
+        <where>
+            and is_del=1
+            <if test="projectName != null and projectName != ''">
+               and name like concat('%', #{projectName}, '%')
+            </if>
+            <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+                and create_time between #{startTime} and #{endTime}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="getProjectListByIsShow" parameterType="ProjectInfo" resultMap="ProjectInfo">
+        select p.*, (select sum(hits) from project_detail d where d.project_id = p.id ) as hits from project p
+        <where>
+            and is_del=1 and is_show=1
+            <if test="projectName != null and projectName != ''">
+                and name like concat('%', #{projectName}, '%')
+            </if>
+            <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+                and create_time between #{startTime} and #{endTime}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <select id="getProjectInfoById" resultMap="ProjectInfo">
+         select p.*, (select sum(hits) from project_detail d where d.project_id = p.id ) as hits from project p where
+        id = #{id}
+    </select>
+
+    <delete id="deleteProjectInfo">
+        update  project set is_del=0 where id=#{id}
+    </delete>
+
+</mapper>

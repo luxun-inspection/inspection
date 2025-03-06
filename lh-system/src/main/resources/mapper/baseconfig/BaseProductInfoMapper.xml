@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.baseconfig.mapper.BaseProductInfoMapper">
+
+    <resultMap type="BaseProductInfo" id="BaseProductInfoResult">
+        <result property="id"    column="id"    />
+        <result property="typeId"    column="type_id"    />
+        <result property="productName"    column="product_name"    />
+        <result property="typeName"    column="type_name"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="detail"    column="detail"    />
+        <result property="showFlag"    column="show_flag"    />
+        <result property="remark"    column="remark"    />
+        <result property="price"    column="price"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectBaseProductInfoVo">
+        select id, type_id, product_name, type_name, img_url, detail, show_flag, remark, price, create_time, create_by, update_time, update_by from base_product_info
+    </sql>
+
+    <select id="selectBaseProductInfoList" parameterType="BaseProductInfo" resultMap="BaseProductInfoResult">
+        <include refid="selectBaseProductInfoVo"/>
+        <where>
+            <if test="typeId != null "> and type_id = #{typeId}</if>
+            <if test="productName != null  and productName != ''"> and product_name like concat('%', #{productName}, '%')</if>
+            <if test="typeName != null  and typeName != ''"> and type_name like concat('%', #{typeName}, '%')</if>
+            <if test="imgUrl != null  and imgUrl != ''"> and img_url = #{imgUrl}</if>
+            <if test="detail != null  and detail != ''"> and detail = #{detail}</if>
+            <if test="showFlag != null  and showFlag != ''"> and show_flag = #{showFlag}</if>
+            <if test="price != null "> and price = #{price}</if>
+        </where>
+    </select>
+
+    <select id="selectBaseProductInfoById" parameterType="Long" resultMap="BaseProductInfoResult">
+        <include refid="selectBaseProductInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseProductInfo" parameterType="BaseProductInfo">
+        insert into base_product_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="typeId != null">type_id,</if>
+            <if test="productName != null">product_name,</if>
+            <if test="typeName != null">type_name,</if>
+            <if test="imgUrl != null">img_url,</if>
+            <if test="detail != null">detail,</if>
+            <if test="showFlag != null">show_flag,</if>
+            <if test="remark != null">remark,</if>
+            <if test="price != null">price,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="typeId != null">#{typeId},</if>
+            <if test="productName != null">#{productName},</if>
+            <if test="typeName != null">#{typeName},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+            <if test="detail != null">#{detail},</if>
+            <if test="showFlag != null">#{showFlag},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="price != null">#{price},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBaseProductInfo" parameterType="BaseProductInfo">
+        update base_product_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="typeId != null">type_id = #{typeId},</if>
+            <if test="productName != null">product_name = #{productName},</if>
+            <if test="typeName != null">type_name = #{typeName},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="detail != null">detail = #{detail},</if>
+            <if test="showFlag != null">show_flag = #{showFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseProductInfoById" parameterType="Long">
+        delete from base_product_info where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseProductInfoByIds" parameterType="String">
+        delete from base_product_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

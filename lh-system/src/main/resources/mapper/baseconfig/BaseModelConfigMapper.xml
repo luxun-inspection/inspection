@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.baseconfig.mapper.BaseModelConfigMapper">
+
+    <resultMap type="BaseModelConfig" id="BaseModelConfigResult">
+        <result property="id"    column="id"    />
+        <result property="modelName"    column="model_name"    />
+        <result property="imgUrl"    column="img_url"    />
+        <result property="showFlag"    column="show_flag"    />
+        <result property="sortNo"    column="sort_no"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="desc1"    column="desc1"    />
+        <result property="desc2"    column="desc2"    />
+    </resultMap>
+
+    <sql id="selectBaseModelConfigVo">
+        select id, model_name, img_url, show_flag, sort_no, create_time, create_by,desc1,desc2 from base_model_config
+    </sql>
+
+    <select id="selectBaseModelConfigList" parameterType="BaseModelConfig" resultMap="BaseModelConfigResult">
+        <include refid="selectBaseModelConfigVo"/>
+        <where>
+            <if test="modelName != null  and modelName != ''"> and model_name like concat('%', #{modelName}, '%')</if>
+            <if test="showFlag != null  and showFlag != ''"> and show_flag = #{showFlag}</if>
+        </where>
+        order by sort_no asc
+    </select>
+
+    <select id="selectBaseModelConfigById" parameterType="Long" resultMap="BaseModelConfigResult">
+        <include refid="selectBaseModelConfigVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBaseModelConfig" parameterType="BaseModelConfig" useGeneratedKeys="true" keyProperty="id">
+        insert into base_model_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="modelName != null">model_name,</if>
+            <if test="imgUrl != null">img_url,</if>
+            <if test="showFlag != null">show_flag,</if>
+            <if test="sortNo != null">sort_no,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="desc1 != null">desc1,</if>
+            <if test="desc2 != null">desc2,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="modelName != null">#{modelName},</if>
+            <if test="imgUrl != null">#{imgUrl},</if>
+            <if test="showFlag != null">#{showFlag},</if>
+            <if test="sortNo != null">#{sortNo},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="desc1 != null">#{desc1},</if>
+            <if test="desc2 != null">#{desc2},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBaseModelConfig" parameterType="BaseModelConfig">
+        update base_model_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="modelName != null">model_name = #{modelName},</if>
+            <if test="imgUrl != null">img_url = #{imgUrl},</if>
+            <if test="showFlag != null">show_flag = #{showFlag},</if>
+            <if test="sortNo != null">sort_no = #{sortNo},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="desc1 != null">desc1 = #{desc1},</if>
+            <if test="desc2 != null">desc2 = #{desc2},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBaseModelConfigById" parameterType="Long">
+        delete from base_model_config where id = #{id}
+    </delete>
+
+    <delete id="deleteBaseModelConfigByIds" parameterType="String">
+        delete from base_model_config where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
